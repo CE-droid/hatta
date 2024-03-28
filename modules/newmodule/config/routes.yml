@@ -1,0 +1,16 @@
+firstroute:
+  resource: "routes/firstroute.yml"
+  prefix: "/anis/first"
+
+your_module_sendtoyalidin:
+  path: /sendtoyalidin
+  methods: [POST]
+  defaults:
+    _controller: 'Yalidin\Newmodule\Controller\yalidin::sendtoyalidin'
+
+sendarchiveyalidin:
+  path: /sendarchiveyalidin
+  methods: [GET]
+  defaults:
+    _controller: 'Yalidin\Newmodule\Controller\yalidin::allfiles'    
+

@@ -1,0 +1,9 @@
+{
+    "name": "yalidin/newmodule",
+    "autoload": {
+        "psr-4": {
+            "Yalidin\\Newmodule\\": "src/"
+        }
+    },
+    "require": {}
+}

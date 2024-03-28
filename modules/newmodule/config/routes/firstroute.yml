@@ -1,0 +1,14 @@
+oit_article_index:
+ path: / 
+ methods: GET
+ defaults:
+   _controller: Yalidin\Newmodule\Controller\yalidin::indexAction
+   _disable_module_prefix: true
+   _legacy_controller: yalidin
+   _legacy_link: yalidin
+
+
+
+
+
+

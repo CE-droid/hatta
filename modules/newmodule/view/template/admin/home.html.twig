@@ -1,0 +1,222 @@
+{% extends '@PrestaShop/Admin/layout.html.twig'%}
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('themes/new-theme/public/orders' ~ rtl_suffix ~ '.css') }}" type="text/css" media="all">
+<style>
+.table td{
+    width: 100px;
+}
+  </style>
+{% endblock %}
+
+{% block content %}
+        <div class="input-group mb-3">
+            <button type="button" class="btn btn-secondary"><a href="{{ path('sendarchiveyalidin') }}">Voir historique des fichiers</a></button>
+        </div>
+        <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">JDOC File</span>
+                 </div>
+                <input type="file" id="fileInput" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                 <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Colis Complet</span>
+                 </div>
+                 <input type="file" id="fileInput2" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+               
+        </div>
+
+    
+   
+        <form method="POST" action="{{ path('your_module_sendtoyalidin') }}">       
+        <table class="table" id="excelDataTable">
+              
+                <thead>
+                        <tr class="column-headers ">
+                                  <th scope="col">#</th>
+                                <th scope="col">Wilaya de depart</th>
+                                  <th scope="col">nom</th>
+                                  <th scope="col">prenom</th>
+                                  <th scope="col">telephone</th>
+                                  <th scope="col">adresse</th>
+                                  <th scope="col">commune</th>
+                                  <th scope="col">wilaya</th>
+                                  <th scope="col">stop desk</th>
+
+                                  <th scope="col">num_commande</th>
+                                  <th scope="col">produit</th>
+                                  <th scope="col">prix</th>
+                                  <th scope="col">assurer le collis</th>
+                                  <th scope="col">valeur declarée</th>
+                                  <th scope="col">longeur</th>
+                                  <th scope="col">largeur</th>
+
+                                  <th scope="col">hauteur</th>
+                                  <th scope="col">poids</th>
+                                  <th scope="col">livraison gratuite</th>
+
+                                  <th scope="col">echange</th>
+                                  <th scope="col">objet a recuperer</th>
+
+                        </tr>
+                </thead>   
+                   
+                <tbody>
+                        <!-- Data will be filled dynamically -->
+                </tbody>
+                
+        </table>
+       <button type='submit' id='send' class='btn btn-success'>envoyer</button>
+                  </form>
+
+
+{% endblock %}
+{% block javascripts %}
+{% verbatim %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
+
+<script>
+
+var $j = jQuery.noConflict();
+$j(document).ready(function(){
+        $('#send').hide();
+    console.log("Document ready");
+
+    // Check if file input element exists
+    if ($j("#fileInput").length) {
+        console.log("File input element found");
+      window.fichier = 0;
+        // Bind change event to file input element
+        $j("#fileInput").change(function(evt){
+                
+            console.log("File input change event triggered");
+
+            var file = evt.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                console.log("File loaded successfully");
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, {type: 'array'});
+
+                // Assuming there's only one sheet in the Excel file
+                var sheetName = workbook.SheetNames[0];
+                var sheet = workbook.Sheets[sheetName];
+
+                // Convert sheet data to JSON
+                window.jsonData = XLSX.utils.sheet_to_json(sheet);
+                fichier++;
+                // Do something with the JSON data, e.g., display it
+                 //displayDataInTable(jsonData);
+                  if(fichier==2){
+                     $('#send').show('fade');
+                        processConcatenation();          
+                              }
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+        /*****************************************************/
+
+
+
+        $j("#fileInput2").change(function(evt){
+                
+            console.log("File input change event triggered");
+
+            var file = evt.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                console.log("File loaded successfully");
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, {type: 'array'});
+
+                // Assuming there's only one sheet in the Excel file
+                var sheetName = workbook.SheetNames[0];
+                var sheet = workbook.Sheets[sheetName];
+
+                // Convert sheet data to JSON
+                window.jsonData2 = XLSX.utils.sheet_to_json(sheet);
+                fichier++;
+                // Do something with the JSON data, e.g., display it
+                 //displayDataInTable(jsonData);
+                  if(fichier==2){
+                     $('#send').show('fade');
+                      processConcatenation();      
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+            
+        });
+               
+    } else {
+        console.log("File input element not found");
+    }
+    function displayDataInTable(jsonData) {
+        var tableBody = $j("#excelDataTable tbody");
+        tableBody.empty();
+        var i=0;
+        // Iterate over each row of jsonData
+        jsonData.forEach(function(row) {
+            var tableRow = "<tr>";
+            i++;
+            // Iterate over each property in the row
+           /* for (var key in row) {
+                console.log(row);
+                if (row.hasOwnProperty(key)) {
+                    tableRow += "<td><input name='row"+ i +"[]' value='" + row[key] + "'></td>";
+                }
+            }*/
+            tableRow += `<td><b>`+i+`</b></td>
+                        <td> <input name="row`+i+`[]"  ></td>
+                         <td > <input name="row`+i+`[]" value = '`+ row['Nom'] +`' ></td>   
+                        <td > <input name="row`+i+`[]" value = '`+ row['Prénom'] +`' ></td>   
+                        <td> <input name="row`+i+`[]" value = '`+ row['Adresse livraison : Téléphone'] +`' ></td>
+                       <td> <input name="row`+i+`[]" value = ' `+ row['Adresse livraison : Adresse 1'] +` ' ></td> 
+                        <td> <input name="row`+i+`[]" value = ' `+ row['Commune'] +` ' ></td> 
+                        <td> <input name="row`+i+`[]" value = ' `+ row['Wilaya'] +` ' ></td>
+                        <td> <input name="row`+i+`[]" value = ' `+ row['ID Point Relais'] +` ' ></td>
+                        <td> <input name="row`+i+`[]" value = ' `+ row['ID'] +` ' ></td> 
+                         <td> <input name="row`+i+`[]" value = ' `+ row['Détail commande - référence produit'] +` ' ></td> 
+                         <td> <input name="row`+i+`[]" value = ' `+ row['Détail commande - prix total TTC'] +`DA ' ></td>   `;
+            tableRow += "</tr>";
+            tableBody.append(tableRow);
+        });
+    }
+
+
+
+
+
+   function processConcatenation() {
+    if (jsonData && jsonData2) {
+      
+                var concatenatedArray = [];
+
+    // Iterate through the first JSON array
+    $.each(jsonData, function(index1, element1) {
+        // Iterate through the second JSON array
+        $.each(jsonData2, function(index2, element2) {
+            // Check if 'Id de commande' matches 'ID'
+            
+            if (element2['Id de commande'] === element1['ID']) {
+                // Concatenate data and add to the concatenatedArray
+                concatenatedArray.push($.extend({}, element1, element2));
+            }
+        });
+    });
+
+    
+    displayDataInTable(concatenatedArray);
+
+
+    }
+}
+
+
+});
+</script>
+{% endverbatim %}
+{% endblock %}
