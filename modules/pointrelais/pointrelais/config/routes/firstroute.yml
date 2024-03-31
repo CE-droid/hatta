@@ -1,0 +1,14 @@
+oit_article_index:
+ path: / 
+ methods: GET
+ defaults:
+   _controller: Anis\Pointrelais\Controller\Export::indexAction
+   _disable_module_prefix: true
+   _legacy_controller: Export
+   _legacy_link: Export
+
+
+
+
+
+

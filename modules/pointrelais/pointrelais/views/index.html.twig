@@ -1,0 +1,74 @@
+{% extends '@PrestaShop/Admin/layout.html.twig'%}
+
+{% block content %}
+    <form method="POST" action="">       
+        <table class="table" id="excelDataTable">
+              
+                <thead>
+                        <tr class="column-headers ">
+                                  <th scope="col">#</th>
+                                <th scope="col">Wilaya de depart</th>
+                                  <th scope="col">nom</th>
+                                  <th scope="col">prenom</th>
+                                  <th scope="col">telephone</th>
+                                  <th scope="col">adresse</th>
+                                  <th scope="col">commune</th>
+                                  <th scope="col">wilaya</th>
+                                  <th scope="col">stop desk</th>
+
+                                  <th scope="col">num_commande</th>
+                                  <th scope="col">produit</th>
+                                  <th scope="col">prix</th>
+                                <!--  <th scope="col">assurer le collis</th>
+                                  <th scope="col">valeur declarée</th>
+                                  <th scope="col">longeur</th>
+                                  <th scope="col">largeur</th>
+
+                                  <th scope="col">hauteur</th>
+                                  <th scope="col">poids</th>
+                                  <th scope="col">livraison gratuite</th>
+
+                                  <th scope="col">echange</th>
+                                  <th scope="col">objet a recuperer</th> ---->
+
+                        </tr>
+                </thead>   
+                   
+                <tbody> 
+                       {% for result in results %}
+                            <tr>
+                                <td><b>{{ loop.index }}</b></td>
+                                 <td><input name="row{{ loop.index }}[]" ></td>
+                                 <td><input name="row{{ loop.index }}[]" value="{{ result.last_name }}"></td>
+                                 <td><input name="row{{ loop.index }}[]" value="{{ result.first_name }}"></td>
+                                 <td><input name="row{{ loop.index }}[]" value="{{ result.phone_number }}"></td>
+                                <td><input name="row{{ loop.index }}[]" value="{{ result.address }}"></td>
+                                <td><input name="row{{ loop.index }}[]" value="{{ result.commune }}"></td>
+                                <td><input name="row{{ loop.index }}[]" value="{{ result.wilaya }}"></td>
+                                <td><input name="row{{ loop.index }}[]" value="{{ result.id_point_relais }}"></td>
+
+
+
+                                <td><input name="row{{ loop.index }}[]" value="{{ result.id_order }}"></td>
+                                <td><input name="row{{ loop.index }}[]" value="{{ result.product_names }}"></td>
+                                 <td><input name="row{{ loop.index }}[]" value="{{ result.total_paid_tax_incl }}"></td>
+
+
+
+
+
+                                
+                                
+                                
+                                
+                                
+                                
+                            </tr>
+                        {% endfor %}
+
+                </tbody>
+                
+        </table>
+       <button type='submit' id='send' class='btn btn-success'>envoyer</button>
+                  </form>
+{% endblock %}

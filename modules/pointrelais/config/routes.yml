@@ -1,0 +1,6 @@
+firstroute:
+  resource: "routes/firstroute.yml"
+  prefix: "/anis/first"
+
+       
+

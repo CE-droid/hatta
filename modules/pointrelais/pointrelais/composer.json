@@ -1,0 +1,9 @@
+{
+    "name": "anis/pointrelais",
+    "autoload": {
+        "psr-4": {
+            "Anis\\Pointrelais\\": "src/"
+        }
+    },
+    "require": {}
+}

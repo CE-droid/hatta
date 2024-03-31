@@ -122,10 +122,7 @@ if (Tools::isSubmit('submit_custom_form')) {
 }
 
    
-$fetchedData = $this->fetchDataFromDatabase();
-    $this->context->smarty->assign(array(
-        'fetchedData' => $fetchedData,
-    ));
+
 
 
 
@@ -133,14 +130,5 @@ $fetchedData = $this->fetchDataFromDatabase();
     return $this->display(__FILE__, 'views/templates/pointrelais.tpl');
     
 }
-public function fetchDataFromDatabase()
-{
-    $sql = "SELECT * FROM `" . _DB_PREFIX_ ."point_relais`";
-    $result = Db::getInstance()->executeS($sql);
-    $rowCount = count($result);
-    return array(
-        'data' => $result,
-        'rowCount' => $rowCount
-    );
-}   
+    
 }

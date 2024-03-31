@@ -944,20 +944,4 @@ deskSelect.addEventListener('change', function () {
  } else {
      console.error("Could not find necessary elements: point-relais-switch or switch-oui class elements");
  }
-
- //edit button 
- // Get references to the update button and divs
- var updateButton = document.getElementById('edit_button');
- var updateDiv = document.getElementById('div_update');
- var fetchedDataDiv = document.getElementById('fetched_data');
-
- // Add event listener to the update button
- updateButton.addEventListener('click', function(event) {
-     // Prevent default link behavior
-     event.preventDefault();
-
-     // Toggle visibility of update div and fetched data div
-     updateDiv.style.display = 'block';
-     fetchedDataDiv.style.display = 'none';
- });
 });
